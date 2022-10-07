@@ -5,15 +5,9 @@ package so.dang.cool.levee;
 
 import java.util.AbstractMap;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
 import java.util.function.Function;
 import java.util.function.Predicate;
-import java.util.function.Supplier;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -45,7 +39,7 @@ public final class MapEntries {
      */
     public static <K, V> Function<Map.Entry<V, K>, Map.Entry<K, V>>
     invert() {
-        return entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getValue(), entry.getKey());
+        return entry -> entryOf(entry.getValue(), entry.getKey());
     }
 
     /**
@@ -53,10 +47,7 @@ public final class MapEntries {
      */
     public static <K, V> Function<Map.Entry<V, ? extends Collection<K>>, Stream<Map.Entry<K, V>>>
     invertMany() {
-        return entry -> entry.getValue().stream().map(value -> {
-            System.out.printf("k %s v %s%n", entry.getKey(), value);
-            return new AbstractMap.SimpleImmutableEntry<>(value, entry.getKey());
-        });
+        return entry -> entry.getValue().stream().map(value -> entryOf(value, entry.getKey()));
     }
 
     /**
@@ -84,7 +75,7 @@ public final class MapEntries {
      */
     public static <K1, K2, V> Function<Map.Entry<K1, V>, Map.Entry<K2, V>>
     keyTo(Function<K1, K2> keyFn) {
-        return entry -> new AbstractMap.SimpleImmutableEntry<>(keyFn.apply(entry.getKey()), entry.getValue());
+        return entry -> entryOf(keyFn.apply(entry.getKey()), entry.getValue());
     }
 
     /**
@@ -94,11 +85,16 @@ public final class MapEntries {
      */
     public static <K, V1, V2> Function<Map.Entry<K, V1>, Map.Entry<K, V2>>
     valueTo(Function<V1, V2> valueFn) {
-        return entry -> new AbstractMap.SimpleImmutableEntry<>(entry.getKey(), valueFn.apply(entry.getValue()));
+        return entry -> entryOf(entry.getKey(), valueFn.apply(entry.getValue()));
     }
 
     public static <K, V> Collector<Map.Entry<K, V>, ?, Map<K, V>>
     toMap() {
         return Collectors.toMap(theKey(), theValue());
+    }
+
+    public static <K, V> Map.Entry<K, V>
+    entryOf(K key, V value) {
+        return new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 }

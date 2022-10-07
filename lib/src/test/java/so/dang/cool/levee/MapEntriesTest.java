@@ -93,4 +93,20 @@ class MapEntriesTest {
         assertEquals("AUGH", inverted.get("scream"));
         assertEquals("EEEK", inverted.get("shriek"));
     }
+
+    @Test void test_entryOf() {
+        var mapped = List.of(
+                "gracias:de nada",
+                "ty:yw",
+                "doumo:iiyo"
+            ).stream()
+            .map(s -> s.split(":"))
+            .map(parts -> entryOf(parts[0], parts[1]))
+            .collect(toMap());
+
+        assertEquals("de nada", mapped.get("gracias"));
+        assertEquals("yw", mapped.get("ty"));
+        assertEquals("iiyo", mapped.get("doumo"));
+
+    }
 }
