@@ -21,32 +21,28 @@ public final class MapEntries {
     /**
      * A helper for functions like {@link Stream#filter(Predicate)}.
      */
-    public static <K, V> Predicate<Map.Entry<K,V>>
-    onKey(Predicate<K> keyPredicate) {
+    public static <K, V> Predicate<Map.Entry<K, V>> onKey(Predicate<K> keyPredicate) {
         return entry -> keyPredicate.test(entry.getKey());
     }
 
     /**
      * A helper for functions like {@link Stream#filter(Predicate)}.
      */
-    public static <K, V> Predicate<Map.Entry<K,V>>
-    onValue(Predicate<V> valuePredicate) {
+    public static <K, V> Predicate<Map.Entry<K, V>> onValue(Predicate<V> valuePredicate) {
         return entry -> valuePredicate.test(entry.getValue());
     }
 
     /**
      * A helper for functions like {@link Stream#map}.
      */
-    public static <K, V> Function<Map.Entry<V, K>, Map.Entry<K, V>>
-    invert() {
+    public static <K, V> Function<Map.Entry<V, K>, Map.Entry<K, V>> invert() {
         return entry -> entryOf(entry.getValue(), entry.getKey());
     }
 
     /**
      * A helper for functions like {@link Stream#flatMap}.
      */
-    public static <K, V> Function<Map.Entry<V, ? extends Collection<K>>, Stream<Map.Entry<K, V>>>
-    invertMany() {
+    public static <K, V> Function<Map.Entry<V, ? extends Collection<K>>, Stream<Map.Entry<K, V>>> invertMany() {
         return entry -> entry.getValue().stream().map(value -> entryOf(value, entry.getKey()));
     }
 
@@ -55,8 +51,7 @@ public final class MapEntries {
      * <p>
      * Equivalent to the <pre>Map.Entry::getKey</pre> method reference, but less verbose.
      */
-    public static <K, V> Function<Map.Entry<K, V>, K>
-    theKey() {
+    public static <K, V> Function<Map.Entry<K, V>, K> theKey() {
         return entry -> entry.getKey();
     }
 
@@ -65,16 +60,14 @@ public final class MapEntries {
      * <p>
      * Equivalent to the <pre>Map.Entry::getValue</pre> method reference, but less verbose.
      */
-    public static <K, V> Function<Map.Entry<K, V>, V>
-    theValue() {
+    public static <K, V> Function<Map.Entry<K, V>, V> theValue() {
         return entry -> entry.getValue();
     }
 
     /**
      * A helper for functions like {@link Stream#map} or {@link Collectors#mapping}.
      */
-    public static <K1, K2, V> Function<Map.Entry<K1, V>, Map.Entry<K2, V>>
-    keyTo(Function<K1, K2> keyFn) {
+    public static <K1, K2, V> Function<Map.Entry<K1, V>, Map.Entry<K2, V>> keyTo(Function<K1, K2> keyFn) {
         return entry -> entryOf(keyFn.apply(entry.getKey()), entry.getValue());
     }
 
@@ -83,18 +76,15 @@ public final class MapEntries {
      * <p>
      * Transforms only the value of a {@Map.Entry}.
      */
-    public static <K, V1, V2> Function<Map.Entry<K, V1>, Map.Entry<K, V2>>
-    valueTo(Function<V1, V2> valueFn) {
+    public static <K, V1, V2> Function<Map.Entry<K, V1>, Map.Entry<K, V2>> valueTo(Function<V1, V2> valueFn) {
         return entry -> entryOf(entry.getKey(), valueFn.apply(entry.getValue()));
     }
 
-    public static <K, V> Collector<Map.Entry<K, V>, ?, Map<K, V>>
-    toMap() {
+    public static <K, V> Collector<Map.Entry<K, V>, ?, Map<K, V>> toMap() {
         return Collectors.toMap(theKey(), theValue());
     }
 
-    public static <K, V> Map.Entry<K, V>
-    entryOf(K key, V value) {
+    public static <K, V> Map.Entry<K, V> entryOf(K key, V value) {
         return new AbstractMap.SimpleImmutableEntry<>(key, value);
     }
 }

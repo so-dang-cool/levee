@@ -1,5 +1,6 @@
 plugins {
     `java-library`
+    id("com.diffplug.spotless") version "6.11.0"
 }
 
 repositories {
@@ -13,4 +14,15 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+spotless {
+    java {
+        removeUnusedImports()
+        palantirJavaFormat()
+    }
+}
+
+tasks.register("fmt").configure {
+    dependsOn("spotlessApply")
 }
