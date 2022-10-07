@@ -22,37 +22,37 @@ class MapEntriesTest {
     @Test
     void test_onKey() {
         Map.of(
-                        "apple", "bad",
-                        "banana", "good",
-                        "aardvark", "bad")
-                .entrySet()
-                .stream()
-                .filter(onKey(k -> k.startsWith("b")))
-                .forEach(entry -> assertEquals("good", entry.getValue()));
+                "apple", "bad",
+                "banana", "good",
+                "aardvark", "bad"
+            ).entrySet()
+            .stream()
+            .filter(onKey(k -> k.startsWith("b")))
+            .forEach(entry -> assertEquals("good", entry.getValue()));
     }
 
     @Test
     void test_onValue() {
         Map.of(
-                        "wrong", 2,
-                        "perfect", 6,
-                        "bad", 3,
-                        "also bad", 8)
-                .entrySet()
-                .stream()
-                .filter(onValue(v -> v == 6))
-                .forEach(entry -> assertEquals("perfect", entry.getKey()));
+                "wrong", 2,
+                "perfect", 6,
+                "bad", 3,
+                "also bad", 8
+            ).entrySet()
+            .stream()
+            .filter(onValue(v -> v == 6))
+            .forEach(entry -> assertEquals("perfect", entry.getKey()));
     }
 
     @Test
     void test_invert() {
         var inverted = Map.of(
-                        "one", 1,
-                        "two", 2)
-                .entrySet()
-                .stream()
-                .map(invert())
-                .collect(toMap());
+                "one", 1,
+                "two", 2
+            ).entrySet()
+            .stream()
+            .map(invert())
+            .collect(toMap());
 
         assertEquals("one", inverted.get(1));
         assertEquals("two", inverted.get(2));
@@ -62,12 +62,12 @@ class MapEntriesTest {
     @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     void test_invertMany() {
         var inverted = Map.of(
-                        "bird", List.of("chicken", "duck", "pigeon"),
-                        "fish", List.of("cod", "salmon", "fugu"))
-                .entrySet()
-                .stream()
-                .flatMap(invertMany())
-                .collect(toMap());
+                "bird", List.of("chicken", "duck", "pigeon"),
+                "fish", List.of("cod", "salmon", "fugu")
+            ).entrySet()
+            .stream()
+            .flatMap(invertMany())
+            .collect(toMap());
 
         assertEquals("bird", inverted.get("chicken"));
         assertEquals("bird", inverted.get("duck"));
@@ -80,13 +80,13 @@ class MapEntriesTest {
     @Test
     void test_keyTo() {
         var inverted = Map.of(
-                        "z", "uno",
-                        "zz", "dos",
-                        "zzz", "tres")
-                .entrySet()
-                .stream()
-                .map(keyTo(String::length))
-                .collect(toMap());
+                "z", "uno",
+                "zz", "dos",
+                "zzz", "tres"
+            ).entrySet()
+            .stream()
+            .map(keyTo(String::length))
+            .collect(toMap());
 
         assertEquals("uno", inverted.get(1));
         assertEquals("dos", inverted.get(2));
@@ -96,12 +96,12 @@ class MapEntriesTest {
     @Test
     void test_valueTo() {
         var inverted = Map.of(
-                        "scream", "augh",
-                        "shriek", "eeek")
-                .entrySet()
-                .stream()
-                .map(valueTo(v -> v.toUpperCase(Locale.US)))
-                .collect(toMap());
+                "scream", "augh",
+                "shriek", "eeek"
+            ).entrySet()
+            .stream()
+            .map(valueTo(v -> v.toUpperCase(Locale.US)))
+            .collect(toMap());
 
         assertEquals("AUGH", inverted.get("scream"));
         assertEquals("EEEK", inverted.get("shriek"));
@@ -109,10 +109,14 @@ class MapEntriesTest {
 
     @Test
     void test_entryOf() {
-        var mapped = List.of("gracias:de nada", "ty:yw", "doumo:iiyo").stream()
-                .map(s -> s.split(":"))
-                .map(parts -> entryOf(parts[0], parts[1]))
-                .collect(toMap());
+        var mapped = List.of(
+                "gracias:de nada",
+                "ty:yw",
+                "doumo:iiyo"
+            ).stream()
+            .map(s -> s.split(":"))
+            .map(parts -> entryOf(parts[0], parts[1]))
+            .collect(toMap());
 
         assertEquals("de nada", mapped.get("gracias"));
         assertEquals("yw", mapped.get("ty"));
