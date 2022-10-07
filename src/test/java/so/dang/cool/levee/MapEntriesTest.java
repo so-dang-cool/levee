@@ -59,6 +59,7 @@ class MapEntriesTest {
     }
 
     @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
     void test_invertMany() {
         var inverted = Map.of(
                         "bird", List.of("chicken", "duck", "pigeon"),

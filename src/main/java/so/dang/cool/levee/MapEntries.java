@@ -74,7 +74,7 @@ public final class MapEntries {
     /**
      * A helper for functions like {@link Stream#map} or {@link Collectors#mapping}.
      * <p>
-     * Transforms only the value of a {@Map.Entry}.
+     * Transforms only the value of a {@link Map.Entry}.
      */
     public static <K, V1, V2> Function<Map.Entry<K, V1>, Map.Entry<K, V2>> valueTo(Function<V1, V2> valueFn) {
         return entry -> entryOf(entry.getKey(), valueFn.apply(entry.getValue()));
