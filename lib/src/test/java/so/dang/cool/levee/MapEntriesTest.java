@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 import static so.dang.cool.levee.MapEntries.*;
 
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 class MapEntriesTest {
@@ -34,5 +36,61 @@ class MapEntriesTest {
             .forEach(entry -> assertEquals("perfect", entry.getKey()));
     }
 
+    @Test void test_invert() {
+        var inverted = Map.of(
+                "one", 1,
+                "two", 2
+            ).entrySet()
+            .stream()
+            .map(invert())
+            .collect(toMap());
 
+        assertEquals("one", inverted.get(1));
+        assertEquals("two", inverted.get(2));
+    }
+
+    @Test void test_invertMany() {
+        var inverted = Map.of(
+                "bird", List.of("chicken", "duck", "pigeon"),
+                "fish", List.of("cod", "salmon", "fugu")
+            ).entrySet()
+            .stream()
+            .flatMap(invertMany())
+            .collect(toMap());
+
+        assertEquals("bird", inverted.get("chicken"));
+        assertEquals("bird", inverted.get("duck"));
+        assertEquals("bird", inverted.get("pigeon"));
+        assertEquals("fish", inverted.get("cod"));
+        assertEquals("fish", inverted.get("salmon"));
+        assertEquals("fish", inverted.get("fugu"));
+    }
+
+    @Test void test_keyTo() {
+        var inverted = Map.of(
+                "z", "uno",
+                "zz", "dos",
+                "zzz", "tres"
+            ).entrySet()
+            .stream()
+            .map(keyTo(String::length))
+            .collect(toMap());
+
+        assertEquals("uno", inverted.get(1));
+        assertEquals("dos", inverted.get(2));
+        assertEquals("tres", inverted.get(3));
+    }
+
+    @Test void test_valueTo() {
+        var inverted = Map.of(
+                "scream", "augh",
+                "shriek", "eeek"
+            ).entrySet()
+            .stream()
+            .map(valueTo(v -> v.toUpperCase(Locale.US)))
+            .collect(toMap());
+
+        assertEquals("AUGH", inverted.get("scream"));
+        assertEquals("EEEK", inverted.get("shriek"));
+    }
 }
