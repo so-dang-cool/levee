@@ -4,7 +4,33 @@
 
 # Levee
 
-Keep your streams from getting out of hand.
+Keep your streams under control.
+
+Levee has a goal of making streams easier to write and read. To do this, it
+provides a small collection of simple-to-use functions. No other dependencies.
+
+## `MapEntries`
+
+Ever wanted to just map the keys or values of a `Map`?
+
+```
+var myMap = Map.of("hey", "you");
+
+var louder = myMap.entrySet()
+    .stream()
+    .map(valueTo(v -> v.toUpperCase()))
+    .collect(toMap());
+```
+
+Keep the `new AbstractMap.SimpleImmutableEntry<K, V>(key, value))` out of your
+lambdas and collectors, Levee has got this for you already.
+
+See more examples in [`MapEntriesTest`](https://github.com/hiljusti/levee/blob/core/src/test/java/so/dang/cool/levee/MapEntriesTest.java).
+
+More detail in [the javadocs](https://javadoc.io/doc/so.dang.cool/levee/latest/so/dang/cool/levee/MapEntries.html).
+Don't worry too much about trying to understand the crazy higher-order function
+signatures, pay more attention to the descriptions. Please send issues for
+anything that could be more clear!
 
 ## Misc
 
