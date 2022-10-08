@@ -39,7 +39,7 @@ publishing {
     publications {
         create<MavenPublication>("mavenJava") {
             group = "so.dang.cool"
-            version = "1.0.0"
+            version = "1.0.1"
             artifactId = "levee"
 
             from(components["java"])
