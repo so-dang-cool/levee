@@ -4,8 +4,12 @@
 package so.dang.cool.levee;
 
 import java.util.AbstractMap;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.stream.Collector;
@@ -94,9 +98,44 @@ public final class MapEntries {
         return entry -> entryOf(entry.getKey(), valueFn.apply(entry.getValue()));
     }
 
+    public static <A, K, V> Function<A, Map.Entry<K, V>>
+    toEntry(Function<A, K> keyFn, Function<A, V> valueFn) {
+        return a -> entryOf(keyFn.apply(a), valueFn.apply(a));
+    }
+
     public static <K, V> Collector<Map.Entry<K, V>, ?, Map<K, V>>
     toMap() {
         return Collectors.toMap(theKey(), theValue());
+    }
+
+    public static <K, V> Collector<Map.Entry<K, V>, ?, Map<K, List<V>>>
+    toMapOfLists() {
+        return Collectors.toMap(
+            theKey(),
+            e -> {
+                var list = new ArrayList();
+                list.add(e.getValue());
+                return list;
+            },
+            (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            });
+    }
+
+    public static <K, V> Collector<Map.Entry<K, V>, ?, Map<K, Set<V>>>
+    toMapOfSets() {
+        return Collectors.toMap(
+            theKey(),
+            e -> {
+                var set = new HashSet();
+                set.add(e.getValue());
+                return set;
+            },
+            (l1, l2) -> {
+                l1.addAll(l2);
+                return l1;
+            });
     }
 
     public static <K, V> Map.Entry<K, V>

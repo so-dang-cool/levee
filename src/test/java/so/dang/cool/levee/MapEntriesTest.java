@@ -10,12 +10,16 @@ import static so.dang.cool.levee.MapEntries.invertMany;
 import static so.dang.cool.levee.MapEntries.keyTo;
 import static so.dang.cool.levee.MapEntries.onKey;
 import static so.dang.cool.levee.MapEntries.onValue;
+import static so.dang.cool.levee.MapEntries.toEntry;
 import static so.dang.cool.levee.MapEntries.toMap;
+import static so.dang.cool.levee.MapEntries.toMapOfLists;
+import static so.dang.cool.levee.MapEntries.toMapOfSets;
 import static so.dang.cool.levee.MapEntries.valueTo;
 
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 
 class MapEntriesTest {
@@ -105,6 +109,48 @@ class MapEntriesTest {
 
         assertEquals("AUGH", inverted.get("scream"));
         assertEquals("EEEK", inverted.get("shriek"));
+    }
+
+    @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    void test_toMap() {
+        var map = List.of(
+                "duplicate",
+                "clone"
+            ).stream()
+            .map(toEntry(s -> s, s -> s))
+            .collect(toMap());
+        
+        assertEquals("duplicate", map.get("duplicate"));
+        assertEquals("clone", map.get("clone"));
+    }
+
+    @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    void test_toMapOfLists() {
+        var map = List.of(
+                entryOf("a", 1),
+                entryOf("b", 2),
+                entryOf("b", 3)
+            ).stream()
+            .collect(toMapOfLists());
+
+        assertEquals(List.of(1), map.get("a"));
+        assertEquals(List.of(2, 3), map.get("b"));
+    }
+
+    @Test
+    @SuppressWarnings("PMD.AvoidDuplicateLiterals")
+    void test_toMapOfSets() {
+        var map = List.of(
+                entryOf("multi", "slo"),
+                entryOf("multi", "bro"),
+                entryOf("single", "k")
+            ).stream()
+            .collect(toMapOfSets());
+
+        assertEquals(Set.of("k"), map.get("single"));
+        assertEquals(Set.of("slo", "bro"), map.get("multi"));
     }
 
     @Test
