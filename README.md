@@ -1,6 +1,6 @@
 [![maven central](https://img.shields.io/maven-central/v/so.dang.cool/levee.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22so.dang.cool%22%20AND%20a:%22levee%22)
 [![javadoc](https://javadoc.io/badge2/so.dang.cool/levee/javadoc.svg)](https://javadoc.io/doc/so.dang.cool/levee)
-![license](https://img.shields.io/github/license/hiljusti/levee)
+![license](https://img.shields.io/github/license/booniepepper/levee)
 
 # Levee
 
@@ -25,7 +25,7 @@ var louder = myMap.entrySet()
 Keep the `new AbstractMap.SimpleImmutableEntry<K, V>(key, value))` out of your
 lambdas and collectors, Levee has got this for you already.
 
-See more examples in [`MapEntriesTest`](https://github.com/hiljusti/levee/blob/core/src/test/java/so/dang/cool/levee/MapEntriesTest.java).
+See more examples in [`MapEntriesTest`](https://github.com/booniepepper/levee/blob/core/src/test/java/so/dang/cool/levee/MapEntriesTest.java).
 
 More detail in [the javadocs](https://javadoc.io/doc/so.dang.cool/levee/latest/so/dang/cool/levee/MapEntries.html).
 Don't worry too much about trying to understand the crazy higher-order function

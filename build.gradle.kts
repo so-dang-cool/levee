@@ -47,28 +47,28 @@ publishing {
             pom {
                 name.set("levee")
                 description.set("Stream control")
-                url.set("https://github.com/hiljusti/levee")
+                url.set("https://github.com/booniepepper/levee")
 
                 licenses {
                     license {
                         name.set("BSD 3-Clause License")
-                        url.set("https://github.com/hiljusti/levee/blob/HEAD/LICENSE")
+                        url.set("https://github.com/booniepepper/levee/blob/HEAD/LICENSE")
                     }
                 }
 
                 developers {
                     developer {
-                        id.set("hiljusti")
+                        id.set("booniepepper")
                         name.set("J.R. Hill")
-                        email.set("hiljusti@so.dang.cool")
+                        email.set("justin@so.dang.cool")
                         url.set("https://so.dang.cool")
                     }
                 }
 
                 scm {
-                    url.set("https://github.com/hiljusti/levee")
-                    connection.set("scm:git:git://github.com/hiljusti/levee.git")
-                    developerConnection.set("scm:git:git://github.com/hiljusti/levee.git")
+                    url.set("https://github.com/booniepepper/levee")
+                    connection.set("scm:git:git://github.com/booniepepper/levee.git")
+                    developerConnection.set("scm:git:git://github.com/booniepepper/levee.git")
                 }
             }
         }
